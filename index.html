@@ -1,268 +1,247 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Untuk Imbi ❤️</title><!-- Tailwind -->
-<script src="https://cdn.tailwindcss.com"></script>
+    <title>Kuis Spesial Kita ✨</title>
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --success-color: #00b894;
+            --wrong-color: #ff7675;
+            --background-color: #f9f9fb;
+            --text-color: #2d3436;
+        }
 
-<!-- Font -->
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&family=Pacifico&display=swap" rel="stylesheet">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-<link rel="stylesheet" href="style.css">
+        .game-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            margin-top: 40px;
+            box-sizing: border-box;
+        }
 
-</head><body class="overflow-hidden"><!-- MUSIK --><audio id="bgMusic" loop>
-    <source src="assets/bgmusic.mp3" type="audio/mpeg">
-</audio><button id="muteBtn">
-    🔊
-</button><!-- HUJAN BUNGA --><div id="flowerRain"></div><!-- ================================================= --><!-- SCENE 1 : KADO --><!-- ================================================= --><section id="giftScene" class="scene active"><div class="text-center">
+        h1 {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
 
-    <h1 class="gift-title">
-        Ada sesuatu untuk Imbi ❤️
-    </h1>
+        .progress-bar {
+            font-size: 14px;
+            color: #b2bec3;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
 
-    <p class="gift-subtitle">
-        Klik kadonya ya sayang
-    </p>
+        .question-box {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    <div id="giftBox" class="gift-box">
-        🎁
-    </div>
+        .input-box {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #dfe6e9;
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.3s;
+            text-align: center;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
 
-</div>
+        .input-box:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 8px rgba(108, 92, 231, 0.2);
+        }
 
-</section><!-- ================================================= --><!-- SCENE 2 : PIN --><!-- ================================================= --><section id="pinScene" class="scene hidden"><div class="pin-container">
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
 
-    <h2 class="pin-title">
-        Hayo kodenya apa ya 🤭
-    </h2>
+        .btn:hover {
+            background-color: #5b4cc4;
+            transform: translateY(-2px);
+        }
 
-    <input
-        id="pinInput"
-        type="password"
-        maxlength="6"
-        placeholder="______"
-        class="pin-input"
-    >
+        .feedback {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 15px;
+            min-height: 22px;
+        }
 
-    <button id="checkPinBtn" class="pink-btn">
-        Masuk
-    </button>
+        .feedback.correct { color: var(--success-color); }
+        .feedback.wrong { color: var(--wrong-color); }
 
-    <p id="pinMessage"></p>
+        .result-box {
+            display: none;
+        }
+        .result-box h2 {
+            color: var(--success-color);
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .score-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
 
-</div>
-
-</section><!-- ================================================= --><!-- SCENE 3 : ORBIT --><!-- ================================================= --><section id="orbitScene" class="scene hidden"><div class="orbit-wrapper">
-
-    <p class="memory-label">
-        MEMORI DnA
-    </p>
-
-    <h1 class="memory-title">
-        Kenangan Dewa n Imbi
-    </h1>
-
-    <p class="memory-subtitle">
-        Pencet setiap kenangan nya satu persatu ya sayang ❤️
-    </p>
-
-    <!-- INTI HATI -->
-
-    <div id="heartCore">
-
-        <div class="heart-glow"></div>
-
-        <div class="heart-content">
-
-            <h2>❤️</h2>
-
-            <p>
-                Inti Hati
-            </p>
-
+    <div class="game-container">
+        <!-- Area Game Utama -->
+        <div id="quiz-area">
+            <h1>Kuis Memori Kita ✨</h1>
+            <div class="progress-bar" id="progress">Pertanyaan 1 dari 10</div>
+            
+            <div class="question-box" id="question">Memuat pertanyaan...</div>
+            
+            <input type="text" id="answer-input" class="input-box" placeholder="Ketik jawabanmu di sini..." autocomplete="off">
+            
+            <button class="btn" id="submit-btn" onclick="checkAnswer()">Kirim Jawaban</button>
+            <div class="feedback" id="feedback"></div>
         </div>
 
+        <!-- Area Hasil Akhir -->
+        <div id="result-area" class="result-box">
+            <h2>Hore! Selesai! 🎉</h2>
+            <p class="score-text" id="score-summary">Kamu berhasil menjawab semua pertanyaan!</p>
+            <button class="btn" onclick="restartGame()">Main Lagi</button>
+        </div>
     </div>
 
-    <!-- ORBIT ITEMS -->
+    <script>
+        // Data Pertanyaan dan Jawaban
+        const quizData = [
+            { q: "Siapa nama emak Aku?", a: "DALIMA" },
+            { q: "Apa bekal yang kedua aku kasih ke kamu?", a: "roti" },
+            { q: "Kapan pertama kali aku DM kamu?", a: "dua delapan februari dua ribu dua lima" },
+            { q: "Apa makanan yang pertama kali aku beli di cfd bareng kamu?", a: "roti bakar" },
+            { q: "Di mana tempat pertama kali kita fotbar? (Bukan berdua ya, pertama kali kita satu frame dan samping-sampingan)", a: "cfd" },
+            { q: "Berapa lama durasi kita pertama kali teleponan?", a: "dua belas" },
+            { q: "Apa yang paling dewa suka dari imbi?", a: "imbi mode centil" },
+            { q: "Kapan setiap kali Imbi mode centil?", a: "kalau mood" },
+            { q: "Di mana pertama kali aku gandeng kamu?", a: "di rel" },
+            { q: "Di mana pertama kali kita saling senderan?", a: "di bioskop" }
+        ];
 
-    <div class="orbit orbit1">
-        <button class="memory-item" data-target="photo1">
-            📸 Foto 1
-        </button>
-    </div>
+        let currentQuestionIndex = 0;
+        let score = 0;
 
-    <div class="orbit orbit2">
-        <button class="memory-item" data-target="photo2">
-            📸 Foto 2
-        </button>
-    </div>
+        const questionEl = document.getElementById('question');
+        const progressEl = document.getElementById('progress');
+        const inputEl = document.getElementById('answer-input');
+        const feedbackEl = document.getElementById('feedback');
+        const submitBtn = document.getElementById('submit-btn');
+        
+        const quizArea = document.getElementById('quiz-area');
+        const resultArea = document.getElementById('result-area');
+        const scoreSummaryEl = document.getElementById('score-summary');
 
-    <div class="orbit orbit3">
-        <button class="memory-item" data-target="photo3">
-            📸 Foto 3
-        </button>
-    </div>
+        function loadQuestion() {
+            feedbackEl.innerText = "";
+            inputEl.value = "";
+            inputEl.style.borderColor = "#dfe6e9";
+            submitBtn.innerText = "Kirim Jawaban";
+            submitBtn.setAttribute("onclick", "checkAnswer()");
 
-    <div class="orbit orbit4">
-        <button class="memory-item" data-target="photo4">
-            📸 Foto 4
-        </button>
-    </div>
+            if (currentQuestionIndex < quizData.length) {
+                progressEl.innerText = `Pertanyaan ${currentQuestionIndex + 1} dari ${quizData.length}`;
+                questionEl.innerText = quizData[currentQuestionIndex].q;
+                inputEl.focus();
+            } else {
+                showResults();
+            }
+        }
 
-    <div class="orbit orbit5">
-        <button class="memory-item" data-target="photo5">
-            📸 Foto 5
-        </button>
-    </div>
+        function checkAnswer() {
+            const userAnswer = inputEl.value.trim().toLowerCase().replace(/\s+/g, ' ');
+            const correctAnswer = quizData[currentQuestionIndex].a.trim().toLowerCase().replace(/\s+/g, ' ');
 
-    <div class="orbit orbit6">
-        <button class="memory-item" data-target="letter">
-            💌 Surat
-        </button>
-    </div>
+            if (userAnswer === "") {
+                feedbackEl.className = "feedback wrong";
+                feedbackEl.innerText = "Isi dulu jawabannya ya!";
+                return;
+            }
 
-    <div class="orbit orbit7">
-        <button class="memory-item" data-target="song">
-            🎵 Lagu Kita
-        </button>
-    </div>
+            if (userAnswer === correctAnswer) {
+                feedbackEl.className = "feedback correct";
+                feedbackEl.innerText = "Benar! Hebat banget kamu! ❤️";
+                inputEl.style.borderColor = "var(--success-color)";
+                score++;
+            } else {
+                feedbackEl.className = "feedback wrong";
+                feedbackEl.innerText = `Salah mwiw, jawabannya: "${quizData[currentQuestionIndex].a}"`;
+                inputEl.style.borderColor = "var(--wrong-color)";
+            }
 
-    <div class="orbit orbit8">
-        <button class="memory-item" data-target="favorite">
-            🌸 Favorit
-        </button>
-    </div>
+            submitBtn.innerText = "Pertanyaan Selanjutnya";
+            submitBtn.setAttribute("onclick", "nextQuestion()");
+        }
 
-</div>
+        function nextQuestion() {
+            currentQuestionIndex++;
+            loadQuestion();
+        }
 
-</section><!-- ================================================= --><!-- MODAL --><!-- ================================================= --><div id="modal" class="hidden"><div class="modal-content">
+        function showResults() {
+            quizArea.style.display = "none";
+            resultArea.style.display = "block";
+            scoreSummaryEl.innerHTML = `Skor Kamu: <b>${score}</b> dari <b>${quizData.length}</b> pertanyaan.<br><br>` + 
+                                       (score === quizData.length ? "Ingatanmu luar biasa sempurna tentang kita! 🥰" : "Keren! Masih ada yang lupa sedikit, coba main lagi yuk!");
+        }
 
-    <button id="closeModal" class="close-btn">
-        ✖
-    </button>
+        function restartGame() {
+            currentQuestionIndex = 0;
+            score = 0;
+            resultArea.style.display = "none";
+            quizArea.style.display = "block";
+            loadQuestion();
+        }
 
-    <div id="modalBody"></div>
+        loadQuestion();
 
-</div>
-
-</div><!-- ================================================= --><!-- BOUQUET --><!-- ================================================= --><section id="bouquetScene" class="scene hidden"><div class="bouquet-container">
-
-    <div class="bouquet-flowers">
-        🌸 🌷 🌹 🌸 🌷 🌹 🌸
-    </div>
-
-    <h1 class="bouquet-title">
-        Thank You For Staying
-    </h1>
-
-    <p class="bouquet-subtitle">
-        Terimakasih karena tetap ada sayang ❤️
-    </p>
-
-    <button id="loveBtn" class="pink-btn">
-        Aku Sayang Kamu ❤️
-    </button>
-
-    <h2 id="foreverText" class="hidden">
-        Forever Us ❤️
-    </h2>
-
-</div>
-
-</section><!-- ================================================= --><!-- TEMPLATE KENANGAN --><!-- ================================================= --><div id="memoryTemplates" class="hidden"><template id="photo1">
-
-    <img src="assets/foto1.jpg" class="memory-photo">
-
-    <p>
-        Kalo kamu meluk atau ngelakuin sesuatu ke bunga yang aku kasih
-        aku ngerasa kaya aku yang dipeluk deh wkwkwkwk.
-        Bunga kamu wangii bangett makasih yaa udah ngasih aku segala hwhe.
-        Kamu effort bangett dehh aku sukakkk ❤️
-    </p>
-
-</template>
-
-<template id="photo2">
-
-    <img src="assets/foto2.jpg" class="memory-photo">
-
-    <p>
-        Liat gaa yang kemarin kita fotbar?
-        Pertama kali loh itu kita wkwkwkwk.
-        Kenapa aku nembak nya pas akhir yaa wkwkwk.
-        Kangenn dehh ❤️
-    </p>
-
-</template>
-
-<template id="photo3">
-
-    <img src="assets/foto3.jpg" class="memory-photo">
-
-    <p>
-        Ini foto kamu yang paling LUCUKKK GEMESHH BANGETT.
-        Aku salting pas kamu kirim ke akuu tauu gasiee ❤️
-    </p>
-
-</template>
-
-<template id="photo4">
-
-    <img src="assets/foto4.jpg" class="memory-photo">
-
-    <p>
-        Inget gaa kejadian aku nembak kamu?
-        Makasihh yakkk semoga kita sama sama teruss ❤️
-    </p>
-
-</template>
-
-<template id="photo5">
-
-    <img src="assets/foto5.jpg" class="memory-photo">
-
-    <p>
-        Liatt seng anak anak kita nungguin lohh dirumahh.
-        Udah punya 5 anak ajaa yaa 🤣❤️
-    </p>
-
-</template>
-
-<template id="letter">
-
-    <h2>💌 Untuk Imbi Sayang</h2>
-
-    <p>
-        Halo sayang.
-        Kamu jangan ngambek ya sama aku?
-        Wkwkwkwk capek tauu kalo kamu ngambek.
-        Ngambek nya jangan lama lama ya.
-        Maapin aku ya kadang kadang aku bikin kamu cemburu.
-        Aku pasti bakal kangen banget sama kamu seng disono.
-        Kamu juga disana sehat sehat yaa.
-        See u enjoy yaa seng ❤️
-    </p>
-
-</template>
-
-<template id="song">
-
-    <h2>🎵 Akad - Payung Teduh</h2>
-
-    <p>
-        Ini lagu kebangsaan kitaa ya seng ❤️
-    </p>
-
-    <a
-        href="https://open.spotify.com/"
-        target="_blank"
-        class="spotify-btn"
-    >
-        Buka Spotify
-    </a>
-
-</template>
-
-</div><script src="script.js"></script></body>
+        inputEl.addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                submitBtn.click();
+            }
+        });
+    </script>
+</body>
 </html>
